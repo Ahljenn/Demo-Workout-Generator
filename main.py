@@ -1,7 +1,7 @@
 import random
 import sys
 
-w_filter = set()
+# w_filter = set()
 workouts = [] # create workout from this empty list
 difficulty = ["Low weight: 15-20 reps - ", "Medium weight: 10-14 reps - ", "Heavy weight: 4-8 reps - "]
 chest = ["Flat dumbell benchpress", "Flat barbell benchpress", "Flat dumbbell fly","Incline dumbell benchpress", "Incline barbell benchpress", "Incline dumbbell fly" "Cable fly",
@@ -11,19 +11,34 @@ back = ["Superman row", "T-bar row", "Deadlift", "Barbell row", "Single-arm dumb
 shoulder = ["Barbell overhead press", "Dumbell overhead press", "Standing cable press", "TYI", "Barbell facepull", "Cable facepull", "Barbell lateral raise", "Cable lateral raise", "Dumbbell bent-over lateral raise", "Arnold press"]
 day_list = [chest,leg,back,shoulder]
 
+# def generate_workout(n,target):
+#     while len(w_filter) < n: #populate set with random, nonduplicate elements
+#         w_filter.add(random.randint(0,len(target)-1))
+#     for i, value in enumerate(w_filter): #populate list with corresponding elements
+#         workouts.insert(i,target[value])
+#     for i, workout in enumerate(workouts): #print workouts
+#         print(i+1, '.', workout + ' - ' + random.choice(difficulty) + str(random.randint(3,6)) + ' SETS')
+#     print(75*('='))
+#     workouts.clear()
+#     w_filter.clear()
+
+#improved algorithm
 def generate_workout(n,target):
-    while len(w_filter) < n: #populate set with random, nonduplicate elements
-        w_filter.add(random.randint(0,len(target)-1))
+    while len(workouts) < n:
+        #generate current random workout from 'target' day
+        current = random.choice(target)
 
-    for i, value in enumerate(w_filter): #populate list with corresponding elements
-        workouts.insert(i,target[value])
-
-    for i, workout in enumerate(workouts): #print workouts
-        print(i+1, '.', workout + ' - ' + random.choice(difficulty) + str(random.randint(3,6)) + ' SETS')
+        #if 'current' is not in the workout list
+        if any(current != workout for workout in workouts) or len(workouts) == 0:
+            workouts.append(current)
+    
+    #generate and print with random difficulty/set count
+    for i, workout in enumerate(workouts):
+        print(i+1, '. ' + workout  + ' - ' + random.choice(difficulty) + ' ' + str(random.randint(3,6)) + ' SETS')
     print(75*('='))
 
     workouts.clear()
-    w_filter.clear()
+
 
 #(main)
 while True:
